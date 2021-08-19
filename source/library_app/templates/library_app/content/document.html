@@ -1,0 +1,130 @@
+{% extends 'library_app/main.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        <h1 class='text-center m-5'>{{document.name}}</h1>
+    </div>
+    <input type=button class='btn btn-dark btn-sm m-2' value="Back" onClick="javascript:history.go(-1);">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card card-body">
+                <span class="badge bg-dark">Document Info</span>
+
+                <table class="table table-sm">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Name
+                            </td>
+                            <td>
+                                {{document.name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Type
+                            </td>
+                            <td>
+                                <span class="badge bg-primary">{{document.type}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Section
+                            </td>
+                            <td>
+                                {{document.section}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Date
+                            </td>
+                            <td>
+                                {{document.date}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Created at
+                            </td>
+                            <td>
+                                {{document.created_at}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Notes
+                            </td>
+                            <td>
+                                {{document.description}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                File
+                            </td>
+                            <td>
+                                <a href="{{document.file.url}}" class="btn btn-sm btn-dark CardButton">Download</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tags
+                            </td>
+                            <td>
+                                {% for doctag in document.tags.all %}
+                                <a href="{% url 'tag' doctag.slug %}" class="badge bg-secondary btn">{{doctag.name}}</a>
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div> 
+        <div class="col-md-6">
+            <div class="card card-body">
+                <span class="badge bg-dark">User Info</span>
+
+                <table class="table table-sm">
+                    <tbody>
+                        <tr>
+                            {% if user.first_name %}
+                            <td>
+                                Full name
+                            </td>
+                            <td>
+                                {{user.first_name}} {{user.last_name}}
+                            </td>
+                            {% else %}
+                            <td>Username</td>
+                            <td>{{user.username}}</td>
+                            {% endif %}
+                        </tr>
+
+                        {% if user.email %}
+                        <tr>
+                            <td>
+                                Email
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-dark" href="mailto:{{user.email}}">{{user.email}}</a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        
+
+                    </tbody>
+                </table>
+            </div>
+        </div>        
+    </div>
+
+    <hr>
+
+    <iframe src="{{document.file.url}}" frameborder="0" style='width: 100%; height: 150vh;'></iframe>
+{% endblock content %}

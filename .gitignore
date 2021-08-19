@@ -1,0 +1,13 @@
+.venv/
+
+*.sqlite3
+
+.idea/
+
+__pycache__/
+
+media/
+
+live_files/
+
+pip_packages/

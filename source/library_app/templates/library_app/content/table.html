@@ -1,0 +1,77 @@
+{% extends 'library_app/main.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <div class="mb-5 mt-5">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                {% if user.is_superuser %}
+                <th scope="col"></th>
+                {% endif %}
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Incident</th>
+                <th scope="col">Section</th>
+                <th scope="col">Date</th>
+                <th scope="col">Added by</th>
+                <th scope="col">Email</th>
+                <th scope="col">Tags</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+                {% for document in documents %}
+                    {% if request.user.is_superuser %}
+                        <tr>
+                            <td><a href="{{ document.get_absolute_url }}" class="btn btn-dark btn-sm">View</a>   </td>
+                            {% if user.is_superuser  %}
+                                {% if user.pk is document.user.pk %}
+                                <td><form action="{% url 'document_delete' document.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+                                </form></td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                            {% endif %}
+                            <td>{{document.name}}</td>
+                            <td>{{document.type}}</td>
+                            <td>{% if document.incident_type %}{{document.incident_type}}{% endif %}</td>
+                            <td>{{document.section}}</td>
+                            <td>{% if document.date %}{{document.date}}{% endif %}</td>
+                            <td>{% if document.user.first_name %} {{document.user.first_name}} {{document.user.last_name}} {% else %} {{document.user}} {% endif %}</td>
+                            <td>{{document.user.email}}</td>
+                            <td>{% for tag in document.tags.all %}<a href="/tag/tag/" class="badge bg-secondary btn">{{tag}}</a> {% endfor %}</td>
+                        </tr>
+                    {% elif request.user.groups.first.name == document.section %}
+                        <tr>
+                            <td><a href="{{ document.get_absolute_url }}" class="btn btn-dark btn-sm">View</a>   </td>
+                            {% if user.is_superuser  %}
+                                {% if user.pk is document.user.pk %}
+                                <td><form action="{% url 'document_delete' document.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+                                </form></td>
+                                {% else %}
+                                    <td></td>
+                                {% endif %}
+                            {% endif %}
+                            <td>{{document.name}}</td>
+                            <td>{{document.type}}</td>
+                            <td>{% if document.incident_type %}{{document.incident_type}}{% endif %}</td>
+                            <td>{{document.section}}</td>
+                            <td>{% if document.date %}{{document.date}}{% endif %}</td>
+                            <td>{% if document.user.first_name %} {{document.user.first_name}} {{document.user.last_name}} {% else %} {{document.user}} {% endif %}</td>
+                            <td>{{document.user.email}}</td>
+                            <td>{% for tag in document.tags.all %}<a href="/tag/tag/" class="badge bg-secondary btn">{{tag}}</a> {% endfor %}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

@@ -1,0 +1,43 @@
+{% extends 'library_app/main.html' %}
+
+{% load static %}
+
+{% block content %}
+<!-- Documents-List -->
+<!-- <section class="border p-4 d-flex justify-content-center mt-5 mb-5">
+    <div class="container ">
+        <h2 class='mb-5'>Last Uploaded</h2>
+        
+         <section id="card-section container">
+           <div class="row">
+          {% for document in documents %} 
+            <div class="card" style='width:28%; margin: 2%;'>
+              <div class="card-body">
+                <h5 class="card-title text-center">{{document.name}}</h5>
+                  
+                  <p class="card-text">
+                    <strong>Notes:</strong> {{document.description|truncatewords:10}} 
+                    <br>
+                    <strong>Section:</strong> {{document.section}}
+                    <br>
+                    <span class="badge bg-primary">{{document.type}}</span>
+                  </p>
+                  <p class="card-text CardText">
+                    <small class="text-muted">
+                      Author: {{document.user.first_name}} {{document.user.last_name}} 
+                    </small>
+                    <br>
+                    <small class="text-muted">{{document.created_at}}</small>
+                  </p>
+                  <a href="{{ document.get_absolute_url }}" class="btn btn-dark btn-sm CardButton">View</a>
+              </div>
+            </div>
+          {% if forloop.counter|divisibleby:3 %}</div>{% endif %}
+          {% if forloop.counter|divisibleby:3 %}<div class="row">{% endif %}
+          {% endfor %}                    
+         </section>              
+    </div>
+</section> -->
+
+{% include 'library_app/forms/upload_document.html' %}
+{% endblock content %}
